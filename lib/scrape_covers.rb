@@ -3,6 +3,7 @@ Bundler.require(:default)
 
 require "scrape_covers/version"
 require "scrape_covers/db"
+require "scrape_covers/crawler"
 
 module ScrapeCovers
   class << self

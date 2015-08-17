@@ -32,6 +32,24 @@ module ScrapeCovers
         end
       end
 
+      def migrate
+        create_results_table unless table_exists?('results')
+        create_teams_table unless table_exists?('teams')
+      end
+
+      def table_exists?(table_name)
+        sql = %Q{
+          SELECT EXISTS (
+            SELECT 1
+            FROM   information_schema.tables
+            WHERE  table_name = '#{table_name}'
+          );
+        }
+        connection.exec(sql).each do |result|
+          return result.fetch('exists', false) == 't'
+        end
+      end
+
       def create_results_table
         sql = %Q{CREATE TABLE results (
           id              integer primary key,
@@ -49,6 +67,12 @@ module ScrapeCovers
       end
 
       def create_teams_table
+        sql = %Q{CREATE TABLE teams (
+          id              integer primary key,
+          covers_id       integer,
+          team_name       varchar(50)
+        );}
+        connection.exec(sql)
       end
 
     end
