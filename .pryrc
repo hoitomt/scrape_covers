@@ -1,16 +1,7 @@
+ENV['RACK_ENV'] = 'development'
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'scrape_covers'
-
-require 'dotenv'
-
-Dotenv.load
-
-ScrapeCovers.configure do |config|
-  config.db_host = ENV['DEVELOPMENT_DB_HOST']
-  config.db_name = ENV['DEVELOPMENT_DB_NAME']
-  config.db_user = ENV['DEVELOPMENT_DB_USER']
-  config.db_password = ENV['DEVELOPMENT_DB_PASSWORD']
-end
 
 begin
   ScrapeCovers::Db.connection

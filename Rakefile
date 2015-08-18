@@ -1,12 +1,14 @@
+ENV['RACK_ENV'] ||= 'development'
+
 require "bundler/gem_tasks"
 require "rake/testtask"
-require 'dotenv'
-
-Dotenv.load
 
 require "./lib/scrape_covers"
 
 import "./lib/tasks/db.rake"
+
+# Used to output comments
+Rake::TaskManager.record_task_metadata = true
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
