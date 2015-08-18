@@ -32,11 +32,6 @@ module ScrapeCovers
         end
       end
 
-      def migrate
-        create_results_table unless table_exists?('results')
-        create_teams_table unless table_exists?('teams')
-      end
-
       def table_exists?(table_name)
         sql = %Q{
           SELECT EXISTS (
@@ -51,6 +46,7 @@ module ScrapeCovers
       end
 
       def create_results_table
+        puts "CREATE TABLE results"
         sql = %Q{CREATE TABLE results (
           id              integer primary key,
           result_date     date,
@@ -67,6 +63,7 @@ module ScrapeCovers
       end
 
       def create_teams_table
+        puts "CREATE TABLE teams"
         sql = %Q{CREATE TABLE teams (
           id              integer primary key,
           covers_id       integer,
