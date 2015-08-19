@@ -1,0 +1,2 @@
+class ScrapeCovers::Result
+end

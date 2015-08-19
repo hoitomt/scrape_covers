@@ -1,0 +1,2 @@
+class ScrapeCovers::Team
+end

@@ -4,9 +4,12 @@ Bundler.require(:default)
 require 'dotenv'
 Dotenv.load
 
+require "config/teams"
 require "scrape_covers/version"
 require "scrape_covers/db"
 require "scrape_covers/crawler"
+require "scrape_covers/parser"
+require "scrape_covers/team"
 
 module ScrapeCovers
   class << self

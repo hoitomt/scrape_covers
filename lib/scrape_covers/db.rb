@@ -72,6 +72,12 @@ module ScrapeCovers
         connection.exec(sql)
       end
 
+      def upsert_team(team)
+      end
+
+      def upsert_results(result)
+      end
+
     end
 
   end
