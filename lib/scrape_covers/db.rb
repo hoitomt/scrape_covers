@@ -3,13 +3,17 @@ require 'pg'
 module ScrapeCovers
   class Db
     class << self
-      def connection_params
+      def base_connection_params
         {
           host: ScrapeCovers.db_host,
-          dbname: ScrapeCovers.db_name,
           user: ScrapeCovers.db_user,
           password: ScrapeCovers.db_password
         }
+
+      end
+
+      def connection_params
+        base_connection_params.merge({dbname: ScrapeCovers.db_name})
       end
 
       def connection
@@ -45,15 +49,22 @@ module ScrapeCovers
         end
       end
 
+      def create_database
+        base_connection = PG.connect( base_connection_params )
+        sql = "CREATE DATABASE #{ScrapeCovers.db_name}"
+        base_connection.exec(sql)
+        base_connection.close
+      end
+
       def create_results_table
         puts "CREATE TABLE results"
         sql = %Q{CREATE TABLE results (
           id              integer primary key,
           result_date     date,
-          team            varchar(50),
-          team_id         integer,
-          opponent        varchar(50),
-          opponent_id     integer,
+          home_team            varchar(50),
+          home_team_id         integer,
+          away_team            varchar(50),
+          away_team_id         integer,
           team_score      integer,
           opponent_score  integer,
           line            numeric,

@@ -6,7 +6,6 @@ describe ScrapeCovers::Parser do
   subject{ScrapeCovers::Parser.new(html_file)}
 
   it 'exists' do
-    binding.pry
-    subject.results_tables
+    subject.result_rows
   end
 end

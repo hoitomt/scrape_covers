@@ -23,7 +23,7 @@ class ScrapeCovers::Parser
     end.compact
   end
 
-  def results_rows
+  def result_rows
     @doc.css('table.data tr')
   end
 
