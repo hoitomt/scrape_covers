@@ -13,5 +13,17 @@ namespace :scrape_covers do
       ScrapeCovers::Db.create_results_table unless ScrapeCovers::Db.table_exists?('results')
       ScrapeCovers::Db.create_teams_table unless ScrapeCovers::Db.table_exists?('teams')
     end
+
+    # namespace :test do
+    #   desc "Create and migrate the test database"
+    #   task :prepare do |task|
+    #     ENV['RACK_ENV'] = 'test'
+    #     Rake::Task["scrape_covers:db:create"].reenable
+    #     Rake::Task["scrape_covers:db:create"].invoke
+
+    #     Rake::Task["scrape_covers:db:migrate"].reenable
+    #     Rake::Task["scrape_covers:db:migrate"].invoke
+    #   end
+    # end
   end
 end

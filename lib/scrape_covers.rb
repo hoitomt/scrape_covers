@@ -8,8 +8,9 @@ require "config/teams"
 require "scrape_covers/version"
 require "scrape_covers/db"
 require "scrape_covers/crawler"
-require "scrape_covers/parser"
 require "scrape_covers/team"
+require "scrape_covers/result"
+require "scrape_covers/parser"
 
 module ScrapeCovers
   class << self

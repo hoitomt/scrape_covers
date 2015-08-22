@@ -60,13 +60,13 @@ module ScrapeCovers
         puts "CREATE TABLE results"
         sql = %Q{CREATE TABLE results (
           id              integer primary key,
-          result_date     date,
-          home_team            varchar(50),
-          home_team_id         integer,
-          away_team            varchar(50),
-          away_team_id         integer,
-          team_score      integer,
-          opponent_score  integer,
+          date            date,
+          home_team       varchar(50),
+          home_team_id    integer,
+          away_team       varchar(50),
+          away_team_id    integer,
+          home_team_score integer,
+          away_team_score integer,
           line            numeric,
           over_under      numeric
         );}
