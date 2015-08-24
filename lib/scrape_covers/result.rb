@@ -43,6 +43,28 @@ module ScrapeCovers
       @away_team_id
     end
 
+    def home_team_score
+      set_scores
+      @home_team_score.to_i
+    end
+
+    def away_team_score
+      set_scores
+      @away_team_score.to_i
+    end
+
+    def line
+      @line = line_cell.split(' ').last.to_f
+      if opponent_cell['@']
+        @line *= -1
+      end
+      @line
+    end
+
+    def over_under
+      over_under_cell.split(' ').last.to_f
+    end
+
     private
 
     def set_team_ids
@@ -54,6 +76,25 @@ module ScrapeCovers
         @away_team_id = opponent_team_id
         @home_team_id = @subject_team_id
       end
+    end
+
+    def set_scores
+      scores = score_only.split('-')
+      if opponent_cell['@']
+        @home_team_score = scores.last
+        @away_team_score = scores.first
+      else
+        @home_team_score = scores.first
+        @away_team_score = scores.last
+      end
+    end
+
+    def score_only
+      score_array = result_cell.split(' ')
+      until score_array.last =~ /\d+/
+        score_array.pop
+      end
+      score_array.last
     end
 
     def cells

@@ -5,6 +5,7 @@ require 'dotenv'
 Dotenv.load
 
 require "config/teams"
+require "config/years"
 require "scrape_covers/version"
 require "scrape_covers/db"
 require "scrape_covers/crawler"

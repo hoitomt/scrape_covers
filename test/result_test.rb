@@ -27,6 +27,20 @@ describe ScrapeCovers::Result do
     Nokogiri::HTML(r)
   }
 
+  let(:overtime_row) {
+    r = %q{<tr>
+      <td></td>
+      <td>@ <a href="/pageLoader/pageLoader.aspx?page=/data/nfl/teams/team10.html">Minnesota</a></td>
+      <td class="datacell">
+        L <a href="/pageLoader/pageLoader.aspx?page=/data/nfl/results/2013-2014/boxscore37757.html">26-29</a>
+          <font color="#CC0000"> x</font></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      </tr>}
+    Nokogiri::HTML(r)
+  }
+
   describe '#parse' do
     before { subject.parse }
 
@@ -36,13 +50,20 @@ describe ScrapeCovers::Result do
       subject.home_team_id.must_equal 10
       subject.away_team.must_equal 'Green Bay'
       subject.away_team_id.must_equal 17
-      # subject.home_team_score.must_equal 20
-      # subject.away_team_score.must_equal 16
-      # subject.line.must_equal -2.5
-      # subject.over_under.must_equal 37.5
+      subject.home_team_score.must_equal 20
+      subject.away_team_score.must_equal 16
+      subject.line.must_equal -2.5
+      subject.over_under.must_equal 37.5
     end
+
+    describe "overtime result" do
+      subject{ ScrapeCovers::Result.new(team_id, overtime_row) }
+
+      it "overtime result" do
+        subject.away_team_score.must_equal 26
+        subject.home_team_score.must_equal 29
+      end
+    end
+
   end
-
-
 end
-
