@@ -1,33 +1,33 @@
 nfl:
-  12: Buffalo Bills
-  9: Miami
-  18: New England
-  25: N.Y. Jets
-  24: Baltimore
-  20: Cincinnati
-  31: Cleveland
-  14: Pittsburgh
-  32: Houston
-  13: Indianapolis
-  30: Jacksonville
-  10: Tennessee
-  21: Denver
-  3: Kansas City
-  26: Oakland
-  11: San Diego
-  28: Dallas
-  8: N.Y. Giants
-  7: Philadelphia
-  27: Washington
-  16: Chicago
   1: Detroit
-  17: Green Bay
-  6: Minnesota
   2: Atlanta
-  29: Carolina
+  3: Kansas City
   4: New Orleans
-  15: Tampa Bay
-  23: Arizona
   5: San Francisco
+  6: Minnesota
+  7: Philadelphia
+  8: N.Y. Giants
+  9: Miami
+  10: Tennessee
+  11: San Diego
+  12: Buffalo Bills
+  13: Indianapolis
+  14: Pittsburgh
+  15: Tampa Bay
+  16: Chicago
+  17: Green Bay
+  18: New England
   19: Seattle
+  20: Cincinnati
+  21: Denver
   22: St. Louis
+  23: Arizona
+  24: Baltimore
+  25: N.Y. Jets
+  26: Oakland
+  27: Washington
+  28: Dallas
+  29: Carolina
+  30: Jacksonville
+  31: Cleveland
+  32: Houston

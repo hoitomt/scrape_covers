@@ -59,7 +59,7 @@ module ScrapeCovers
       def create_results_table
         puts "CREATE TABLE results"
         sql = %Q{CREATE TABLE results (
-          id              integer primary key,
+          id              serial primary key,
           date            date,
           home_team       varchar(50),
           home_team_id    integer,
@@ -76,11 +76,23 @@ module ScrapeCovers
       def create_teams_table
         puts "CREATE TABLE teams"
         sql = %Q{CREATE TABLE teams (
-          id              integer primary key,
+          id              serial primary key,
           covers_id       integer,
           team_name       varchar(50)
         );}
         connection.exec(sql)
+      end
+
+      def seed_teams
+        teams = Teams.nfl_teams
+        teams.each do |covers_id, team_name|
+          sql = "SELECT * FROM teams where covers_id = #{covers_id}"
+          result = connection.exec(sql)
+          next if result.values.length > 0
+
+          sql = "INSERT INTO teams (covers_id, team_name) VALUES(#{covers_id}, '#{team_name}');"
+          connection.exec(sql)
+        end
       end
 
       def upsert_team(team)

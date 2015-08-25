@@ -14,6 +14,12 @@ namespace :scrape_covers do
       ScrapeCovers::Db.create_teams_table unless ScrapeCovers::Db.table_exists?('teams')
     end
 
+    desc "Seed the teams"
+    task :seed_teams do |task|
+      puts task.full_comment
+      ScrapeCovers::Db.seed_teams
+    end
+
     # namespace :test do
     #   desc "Create and migrate the test database"
     #   task :prepare do |task|
