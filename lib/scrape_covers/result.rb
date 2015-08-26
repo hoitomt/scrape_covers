@@ -6,8 +6,8 @@ module ScrapeCovers
               :line, :over_under
 
   class Result
-    def initialize(team_id, row)
-      @subject_team_id = team_id.to_i
+    def initialize(team, row)
+      @subject_team_id = team.id
       @row = row
       raise "Unable to create a result - Invalid raw data: #{team_id}" if cells.length != 6
     end
@@ -16,31 +16,39 @@ module ScrapeCovers
       self
     end
 
-    def parse
+    def display
+      puts %Q{
+        #{self.away_team}(#{self.away_team_id})\t\t #{self.away_team_score}
+        #{self.home_team}(#{self.home_team_id})\t\t #{self.home_team_score}
+        Line: Home Team by #{self.line}
+        Over Under: #{self.over_under}
+      }
     end
 
     def date
       return nil if date_cell.nil?
       date_string = date_cell.split(' ').last
-      Date.strptime(date_string, '%m/%d/%y')
+      @date = Date.strptime(date_string, '%m/%d/%y')
     end
 
     def home_team
-      Teams.nfl_team_name(home_team_id)
+      Team.find_by_covers_id(home_team_id).name
     end
 
     def home_team_id
       set_team_ids
-      @home_team_id
+      home_team = Team.find_by_covers_id(@home_team_id)
+      @home_team_id = home_team.id
     end
 
     def away_team
-      Teams.nfl_team_name(away_team_id)
+      Team.find_by_covers_id(away_team_id).name
     end
 
     def away_team_id
       set_team_ids
-      @away_team_id
+      away_team = Team.find_by_covers_id(@away_team_id)
+      away_team.id
     end
 
     def home_team_score
@@ -53,6 +61,7 @@ module ScrapeCovers
       @away_team_score.to_i
     end
 
+    # line is relative to the home team
     def line
       @line = line_cell.split(' ').last.to_f
       if opponent_cell['@']

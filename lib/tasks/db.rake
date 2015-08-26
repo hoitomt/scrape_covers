@@ -20,16 +20,5 @@ namespace :scrape_covers do
       ScrapeCovers::Db.seed_teams
     end
 
-    # namespace :test do
-    #   desc "Create and migrate the test database"
-    #   task :prepare do |task|
-    #     ENV['RACK_ENV'] = 'test'
-    #     Rake::Task["scrape_covers:db:create"].reenable
-    #     Rake::Task["scrape_covers:db:create"].invoke
-
-    #     Rake::Task["scrape_covers:db:migrate"].reenable
-    #     Rake::Task["scrape_covers:db:migrate"].invoke
-    #   end
-    # end
   end
 end

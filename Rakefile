@@ -5,7 +5,9 @@ require "rake/testtask"
 
 require "./lib/scrape_covers"
 
-import "./lib/tasks/db.rake"
+Dir["./lib/tasks/**/*.rake"].each do |task_file|
+  import task_file
+end
 
 # Used to output comments
 Rake::TaskManager.record_task_metadata = true

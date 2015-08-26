@@ -4,14 +4,9 @@ Bundler.require(:default)
 require 'dotenv'
 Dotenv.load
 
-require "config/teams"
-require "config/years"
-require "scrape_covers/version"
-require "scrape_covers/db"
-require "scrape_covers/crawler"
-require "scrape_covers/team"
-require "scrape_covers/result"
-require "scrape_covers/parser"
+Dir["./lib/config/**/*.rb", "./lib/scrape_covers/**/*.rb"].each do |file|
+  require file
+end
 
 module ScrapeCovers
   class << self

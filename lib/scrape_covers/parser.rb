@@ -2,19 +2,20 @@ require 'nokogiri'
 
 module ScrapeCovers
   class Parser
-    def initialize(team_id, raw_html)
-      @team_id = team_id
+    def initialize(team, raw_html)
+      @team = team
       @doc = Nokogiri::HTML(raw_html)
     end
 
     def parse
       clean_result_rows.map do |result|
-        Result.new(@team_id, result).save!
+        Result.new(@team, result).save!
       end
     end
 
     # remove the header rows and BYE weeks
     def clean_result_rows
+      raise "Missing data" if result_rows.empty?
       result_rows.map do |result|
         next if is_header_row?(result) || is_bye_week?(result)
         result

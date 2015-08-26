@@ -78,27 +78,40 @@ module ScrapeCovers
         sql = %Q{CREATE TABLE teams (
           id              serial primary key,
           covers_id       integer,
-          team_name       varchar(50)
+          name            varchar(50)
         );}
         connection.exec(sql)
       end
 
       def seed_teams
         teams = Teams.nfl_teams
-        teams.each do |covers_id, team_name|
-          sql = "SELECT * FROM teams where covers_id = #{covers_id}"
-          result = connection.exec(sql)
-          next if result.values.length > 0
-
-          sql = "INSERT INTO teams (covers_id, team_name) VALUES(#{covers_id}, '#{team_name}');"
-          connection.exec(sql)
+        teams.each do |covers_id, name|
+          upsert_team(covers_id: covers_id, name: name)
         end
       end
 
-      def upsert_team(team)
+      def upsert_team(team_args)
+        result = find_team_by_covers_id(team_args[:covers_id])
+        return unless result.nil?
+
+        sql = "INSERT INTO teams (covers_id, name) VALUES(#{team_args[:covers_id]}, '#{team_args[:name]}');"
+        connection.exec(sql)
       end
 
-      def upsert_results(result)
+      def find_team_by_covers_id(covers_id)
+        sql = "SELECT * FROM teams where covers_id = #{covers_id}"
+        result = connection.exec(sql)[0]
+      rescue IndexError => e
+        return nil
+      end
+
+      def all_teams
+        sql = "SELECT * FROM teams;"
+        result = connection.exec(sql)
+      end
+
+      def upsert_results(result_args)
+
       end
 
     end
