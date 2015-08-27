@@ -12,3 +12,9 @@ require 'pry'
 Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 
 FIXTURE_FILE_PATH = File.join(File.dirname(__FILE__), 'html_files')
+
+class Minitest::Test
+  def reset_db
+    ScrapeCovers::Db.reset_db
+  end
+end

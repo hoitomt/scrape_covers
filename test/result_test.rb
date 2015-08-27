@@ -1,8 +1,8 @@
 require 'test_helper'
 
 describe ScrapeCovers::Result do
-  subject{ ScrapeCovers::Result.new(team_id, row) }
-  let(:team_id) { '17' } # Green Bay
+  subject{ ScrapeCovers::Result.new(team, row) }
+  let(:team) { ScrapeCovers::Team.create({covers_id: '17', name: 'Green Bay'}) }
   let(:row) {
     r = %q{<tr>
       <td class="datacell">
@@ -41,9 +41,9 @@ describe ScrapeCovers::Result do
     Nokogiri::HTML(r)
   }
 
-  describe '#parse' do
-    before { subject.parse }
+  after { reset_db }
 
+  describe '#parse' do
     it "creates the object" do
       subject.date.to_s.must_equal '2014-08-09'
       subject.home_team.must_equal 'Tennessee'
@@ -57,7 +57,7 @@ describe ScrapeCovers::Result do
     end
 
     describe "overtime result" do
-      subject{ ScrapeCovers::Result.new(team_id, overtime_row) }
+      subject{ ScrapeCovers::Result.new(team, overtime_row) }
 
       it "overtime result" do
         subject.away_team_score.must_equal 26

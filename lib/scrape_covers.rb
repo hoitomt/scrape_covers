@@ -1,3 +1,5 @@
+# ENV['RACK_ENV'] ||= 'development'
+
 require 'bundler'
 Bundler.require(:default)
 
@@ -20,6 +22,7 @@ end
 
 ScrapeCovers.configure do |config|
   rack_env = ENV['RACK_ENV'].upcase
+  puts "Rack Env: #{rack_env}"
   config.db_host = ENV["#{rack_env}_DB_HOST"]
   config.db_name = ENV["#{rack_env}_DB_NAME"]
   config.db_user = ENV["#{rack_env}_DB_USER"]

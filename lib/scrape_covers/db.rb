@@ -91,11 +91,14 @@ module ScrapeCovers
       end
 
       def upsert_team(team_args)
+        puts "Upsert Team #{team_args}"
         result = find_team_by_covers_id(team_args[:covers_id])
-        return unless result.nil?
+        puts "Find result #{result}"
+        return result[0] unless result.nil?
 
         sql = "INSERT INTO teams (covers_id, name) VALUES(#{team_args[:covers_id]}, '#{team_args[:name]}');"
-        connection.exec(sql)
+        result = connection.exec(sql)
+        puts "Result #{result[0]}"
       end
 
       def find_team_by_covers_id(covers_id)
@@ -110,8 +113,9 @@ module ScrapeCovers
         result = connection.exec(sql)
       end
 
-      def upsert_results(result_args)
-
+      def reset_db
+        sql = "DELETE FROM results;"
+        connection.exec(sql)
       end
 
     end
