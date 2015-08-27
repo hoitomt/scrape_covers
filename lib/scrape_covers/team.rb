@@ -8,6 +8,12 @@ module ScrapeCovers
       self.new(db_data)
     end
 
+    def self.find_by_id(id)
+      db_data = ScrapeCovers::Db::find_team_by_id(id)
+      return if db_data.nil?
+      self.new(db_data)
+    end
+
     def self.all
       ScrapeCovers::Db::all_teams.map do |team_data|
         self.new(team_data)
@@ -25,7 +31,8 @@ module ScrapeCovers
     end
 
     def save
-      self.id = ScrapeCovers::Db.upsert_team(team_args)
+      db_result = ScrapeCovers::Db.upsert_team(team_args)
+      self.id = db_result['id']
       self
     end
 

@@ -7,7 +7,7 @@ module ScrapeCovers
 
   class Result
     def initialize(team, row)
-      @subject_team_id = team.id
+      @subject_team = team
       @row = row
       raise "Unable to create a result - Invalid raw data: #{team_id}" if cells.length != 6
     end
@@ -32,23 +32,23 @@ module ScrapeCovers
     end
 
     def home_team
-      Team.find_by_covers_id(home_team_id).name
+      Team.find_by_id(home_team_id).name
     end
 
     def home_team_id
       set_team_ids
-      home_team = Team.find_by_covers_id(@home_team_id)
+      home_team = Team.find_by_covers_id(@home_team_covers_id)
       @home_team_id = home_team.id
     end
 
     def away_team
-      Team.find_by_covers_id(away_team_id).name
+      Team.find_by_id(away_team_id).name
     end
 
     def away_team_id
       set_team_ids
-      away_team = Team.find_by_covers_id(@away_team_id)
-      away_team.id
+      away_team = Team.find_by_covers_id(@away_team_covers_id)
+      @away_team_id = away_team.id
     end
 
     def home_team_score
@@ -79,11 +79,11 @@ module ScrapeCovers
     def set_team_ids
       opponent_team_id = opponent_cell_href.match(/team(\d+)/).to_s.gsub('team', '').to_i
       if opponent_cell['@']
-        @away_team_id = @subject_team_id
-        @home_team_id = opponent_team_id
+        @away_team_covers_id = @subject_team.covers_id
+        @home_team_covers_id = opponent_team_id
       else
-        @away_team_id = opponent_team_id
-        @home_team_id = @subject_team_id
+        @away_team_covers_id = opponent_team_id
+        @home_team_covers_id = @subject_team.covers_id
       end
     end
 

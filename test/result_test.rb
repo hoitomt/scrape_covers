@@ -3,7 +3,9 @@ require 'test_helper'
 describe ScrapeCovers::Result do
   subject{ ScrapeCovers::Result.new(team, row) }
   let(:team) { ScrapeCovers::Team.create({covers_id: '17', name: 'Green Bay'}) }
+  let(:team1) { ScrapeCovers::Team.create({covers_id: '10', name: 'Tennessee'}) }
   let(:row) {
+    team1
     r = %q{<tr>
       <td class="datacell">
         Saturday 08/09/14</td>
@@ -47,9 +49,9 @@ describe ScrapeCovers::Result do
     it "creates the object" do
       subject.date.to_s.must_equal '2014-08-09'
       subject.home_team.must_equal 'Tennessee'
-      subject.home_team_id.must_equal 10
+      subject.home_team_id.must_equal team1.id
       subject.away_team.must_equal 'Green Bay'
-      subject.away_team_id.must_equal 17
+      subject.away_team_id.must_equal team.id
       subject.home_team_score.must_equal 20
       subject.away_team_score.must_equal 16
       subject.line.must_equal -2.5
