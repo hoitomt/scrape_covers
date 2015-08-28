@@ -1,8 +1,6 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
-require "./lib/scrape_covers"
-
 Dir["./lib/tasks/**/*.rake"].each do |task_file|
   import task_file
 end
@@ -16,4 +14,8 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*_test.rb']
 end
 
-task :default => :test
+task :default do
+  ENV['RACK_ENV'] = 'test'
+  Rake::Task[:'scrape_covers:environment'].invoke()
+  Rake::Task[:test].invoke()
+end

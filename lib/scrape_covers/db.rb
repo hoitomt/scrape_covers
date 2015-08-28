@@ -60,7 +60,6 @@ module ScrapeCovers
       end
 
       def create_results_table
-        puts "CREATE TABLE results"
         sql = query_logger {
           %Q{CREATE TABLE results (
             id              serial primary key,
@@ -79,7 +78,6 @@ module ScrapeCovers
       end
 
       def create_teams_table
-        puts "CREATE TABLE teams"
         sql = query_logger {
           %Q{CREATE TABLE teams (
             id              serial primary key,
@@ -130,6 +128,33 @@ module ScrapeCovers
           "SELECT * FROM teams;"
         }
         result = connection.exec(sql)
+      end
+
+      def upsert_result(result)
+        found_result = find_result(result.home_team_id, result.away_team_id, result.date)
+        return found_result unless found_result.nil?
+
+        sql = query_logger {
+          %Q{
+            INSERT INTO results(date,home_team,home_team_id,away_team,away_team_id,home_team_score,away_team_score,line,over_under)
+            VALUES('#{result.date}','#{result.home_team}', #{result.home_team_id},'#{result.away_team}',
+                   #{result.away_team_id},#{result.home_team_score},#{result.away_team_score},
+                   #{result.line}, #{result.over_under})
+            RETURNING id;
+          }
+        }
+        connection.exec(sql)[0]
+      end
+
+      def find_result(home_team_id, away_team_id, date)
+        sql = query_logger {
+          %Q{SELECT *
+             FROM results
+             WHERE home_team_id = #{home_team_id} AND away_team_id = #{away_team_id} AND date = '#{date}'}
+        }
+        result = connection.exec(sql)[0]
+      rescue IndexError => e
+        return nil
       end
 
       def query_logger &block

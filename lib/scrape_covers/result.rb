@@ -13,6 +13,7 @@ module ScrapeCovers
     end
 
     def save!
+      ScrapeCovers::Db.upsert_result(self)
       self
     end
 
