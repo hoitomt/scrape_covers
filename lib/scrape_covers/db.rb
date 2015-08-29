@@ -2,6 +2,10 @@ require 'pg'
 
 module ScrapeCovers
   class Db
+
+    RESULTS_TABLE = "scrape_covers_results"
+    TEAMS_TABLE = "scrape_covers_teams"
+
     class << self
       def base_connection_params
         {
